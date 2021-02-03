@@ -73,7 +73,7 @@ for block in blocks:
 	newBlocks[block] = blockList
 
 # Write blocks to json file
-out_file = open('blocks.json', 'w')
+out_file = open('tokenBlocks.json', 'w')
 json.dump(newBlocks, out_file)
 out_file.close()
 
