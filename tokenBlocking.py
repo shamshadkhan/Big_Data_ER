@@ -54,7 +54,7 @@ def removeUnnecessaryBlocks():
 	blocksToRemove = []
 	for block in blocks:
 		# If the block contains only single entity
-		if len(block) == 1:
+		if len(blocks[block]) == 1:
 			blocksToRemove.append(block)
 	for block in blocksToRemove:
 		blocks.pop(block, None)
