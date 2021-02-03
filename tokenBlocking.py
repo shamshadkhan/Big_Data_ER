@@ -11,7 +11,7 @@ dataset2 = json.load(file2)
 
 # Tokens as block keys and the value is a list of information of entities that have the token.
 # (dataset index and entity index in the dataset)
-# where dataset index 0 = dataset1 ; 1 = dataset2
+# where dataset index 1 = dataset1 ; 2 = dataset2
 # where entity index is the entity profile index
 blocks = dict()
 
@@ -60,8 +60,8 @@ def removeUnnecessaryBlocks():
 		blocks.pop(block, None)
 
 #Perfom Token Blocking
-createTokenBlocks(dataset1, 0)
-createTokenBlocks(dataset2, 1)
+createTokenBlocks(dataset1, 1)
+createTokenBlocks(dataset2, 2)
 removeUnnecessaryBlocks()
 
 # Output the blocks in to a json file
