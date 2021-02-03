@@ -53,12 +53,8 @@ def createTokenBlocks(dataset, dataset_index):
 def removeUnnecessaryBlocks():
 	blocksToRemove = []
 	for block in blocks:
-		datasetsInBlock = []
-		for entity in blocks[block]:
-			if entity['dataset'] not in datasetsInBlock:
-				datasetsInBlock.append(entity['dataset'])
 		# If the block contains only single entity
-		if len(datasetsInBlock) == 1:
+		if len(block) == 1:
 			blocksToRemove.append(block)
 	for block in blocksToRemove:
 		blocks.pop(block, None)
