@@ -21,7 +21,7 @@ prepositionList1=['a','an','the','aboard', 'about', 'above', 'across', 'after', 
 				  'considering', 'despite', 'down','during','except','excepting','excluding','following','for','from','in','inside'
 				  ,'into','like','minus','near','of','off','on','onto','opposite','outside','over','past','per','plus','regarding'
 				  ,'round','save','since','than','through','to','toward','towards','under','underneath','unlike','until','up','upon'
-				  ,'versus','via','with','within','without'
+				  ,'versus','via','with','within','without','and','or'
 ]
 
 #extract token from entity attribute values
@@ -50,19 +50,19 @@ def createTokenBlocks(dataset, dataset_index):
 		index += 1
 
 #Filter Blocks that contain only 1 entity
-def removeUnnecessaryBlocks():
+def cleanTokenBlocks():
 	blocksToRemove = []
 	for block in blocks:
 		# If the block contains only single entity
 		if len(blocks[block]) == 1:
 			blocksToRemove.append(block)
 	for block in blocksToRemove:
-		blocks.pop(block, None)
+		blocks.pop(block)
 
 #Perfom Token Blocking
 createTokenBlocks(dataset1, 1)
 createTokenBlocks(dataset2, 2)
-removeUnnecessaryBlocks()
+cleanTokenBlocks()
 
 # Output the blocks in to a json file
 newBlocks = dict()
