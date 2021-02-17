@@ -29,7 +29,7 @@ def extractTokensFromAttributeValue(value):
 	tokensFromAttributeValue = []
 	extractTokens = re.split(':|;|,|#|%|-| ', value)
 	for token in extractTokens:
-		if token.lower() not in prepositionList1:
+		if token and token.lower() not in prepositionList1:
 			tokensFromAttributeValue.append(token)
 	return tokensFromAttributeValue
 
@@ -44,11 +44,10 @@ def createTokenBlocks(dataset, dataset_index):
 			extractedTokens = extractTokensFromAttributeValue(entity[attribute])
 			for token in extractedTokens:
 				if token in blocks:
-					blocks[token].append(dict(dataset=dataset_index, index=index))
+					blocks[token].append([dataset_index, index])
 				else:
-					blocks[token] = [dict(dataset=dataset_index, index=index)]
+					blocks[token] = [[dataset_index, index]]
 		index += 1
-
 #Filter Blocks that contain only 1 entity
 def cleanTokenBlocks():
 	blocksToRemove = []
@@ -65,16 +64,9 @@ createTokenBlocks(dataset2, 2)
 cleanTokenBlocks()
 
 # Output the blocks in to a json file
-newBlocks = dict()
-for block in blocks:
-	blockList = []
-	for entity in blocks[block]:
-		blockList.append([entity['dataset'], entity['index']])
-	newBlocks[block] = blockList
-
 # Write blocks to json file
 out_file = open('tokenBlocks.json', 'w')
-json.dump(newBlocks, out_file)
+json.dump(blocks, out_file)
 out_file.close()
 
 
