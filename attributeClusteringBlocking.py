@@ -1,5 +1,9 @@
 import json
-import re
+import tokenBlocking
+
+# import function from tokenblocking file
+extractTokensFromAttributeValue = tokenBlocking.extractTokensFromAttributeValue
+cleanTokenBlocks = tokenBlocking.cleanTokenBlocks
 
 # Opening JSON file
 file1 = open('dataset1.json')
@@ -12,24 +16,7 @@ dataset2 = json.load(file2)
 datasets = [dataset1,dataset2]
 clusterLinks1 = {}
 clusterLinks2 = {}
-
-#prepositions to omit from token
-prepositionList1=['a','an','the','aboard', 'about', 'above', 'across', 'after', 'against', 'along', 'amid', 'among', 'anti', 'around', 'as',
-				 'at', 'before', 'behind', 'below', 'beneath', 'beside', 'besides', 'between', 'beyond', 'but', 'by', 'concerning',
-				  'considering', 'despite', 'down','during','except','excepting','excluding','following','for','from','in','inside'
-				  ,'into','like','minus','near','of','off','on','onto','opposite','outside','over','past','per','plus','regarding'
-				  ,'round','save','since','than','through','to','toward','towards','under','underneath','unlike','until','up','upon'
-				  ,'versus','via','with','within','without','and','or'
-]
-
-#extract token from entity attribute values
-def extractTokensFromAttributeValue(value):
-	tokensFromAttributeValue = []
-	extractTokens = re.split(':|;|,|#|%|-| ', value)
-	for token in extractTokens:
-		if token.lower() not in prepositionList1:
-			tokensFromAttributeValue.append(token)
-	return tokensFromAttributeValue
+blocks = dict()
 
 # create a list of attribute names, annotated with the occuring values
 def extractAttributeNames(entitiesList, datasetIndex):
@@ -105,7 +92,6 @@ def cleanClusterLists(clusterLists):
 def createTokenBlocksFromCluster(clusterLists,attributeNames1,attributeNames2):
     attributeNameList = attributeNames1.copy()
     attributeNameList.update(attributeNames2)
-    blocks = dict()
     for cluster in clusterLists:
         for attributeName in cluster:
             for value in attributeNameList[attributeName]:
@@ -122,17 +108,6 @@ def createTokenBlocksFromCluster(clusterLists,attributeNames1,attributeNames2):
                                 # or create a new block
                                 else:
                                     blocks[key]= [value]
-    return blocks
-
-def cleanTokenBlocks(blocks):
-    blocksToRemove = []
-    for block in blocks:
-        # If the block contains only single entity
-        if len(blocks[block]) == 1:
-            blocksToRemove.append(block)
-    for block in blocksToRemove:
-        blocks.pop(block)
-    return blocks
 
 # extracting attribute names for each dataset
 attributeNames1 = extractAttributeNames(dataset1,1)
@@ -157,7 +132,7 @@ clusterLists = createTransitiveClosure(clusterLinks1,clusterLinks2)
 cleanClusterLists = cleanClusterLists(clusterLists)
 
 #create blocks by applying token blocking
-blocks = createTokenBlocksFromCluster(cleanClusterLists,attributeNames1,attributeNames2)
+createTokenBlocksFromCluster(cleanClusterLists,attributeNames1,attributeNames2)
 
 #clean token blocks
 cleanBlocks = cleanTokenBlocks(blocks)

@@ -49,24 +49,25 @@ def createTokenBlocks(dataset, dataset_index):
 					blocks[token] = [[dataset_index, index]]
 		index += 1
 #Filter Blocks that contain only 1 entity
-def cleanTokenBlocks():
+def cleanTokenBlocks(blockList):
 	blocksToRemove = []
-	for block in blocks:
+	for block in blockList:
 		# If the block contains only single entity
-		if len(blocks[block]) == 1:
+		if len(blockList[block]) == 1:
 			blocksToRemove.append(block)
 	for block in blocksToRemove:
-		blocks.pop(block)
+		blockList.pop(block)
+	return blockList
 
 #Perfom Token Blocking
 createTokenBlocks(dataset1, 1)
 createTokenBlocks(dataset2, 2)
-cleanTokenBlocks()
+cleanBlocks = cleanTokenBlocks(blocks)
 
 # Output the blocks in to a json file
 # Write blocks to json file
 out_file = open('tokenBlocks.json', 'w')
-json.dump(blocks, out_file)
+json.dump(cleanBlocks, out_file)
 out_file.close()
 
 
