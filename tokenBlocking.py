@@ -53,7 +53,7 @@ def cleanTokenBlocks(blockList):
 	blocksToRemove = []
 	for block in blockList:
 		datasetsInBlock = []
-		for entity in blocks[block]:
+		for entity in blockList[block]:
 			if entity[0] not in datasetsInBlock:
 				datasetsInBlock.append(entity[0])
 		# If the block contains only single dataset entity
