@@ -48,12 +48,16 @@ def createTokenBlocks(dataset, dataset_index):
 				else:
 					blocks[token] = [[dataset_index, index]]
 		index += 1
-#Filter Blocks that contain only 1 entity
+#Filter Blocks that contain only single dataset entity
 def cleanTokenBlocks(blockList):
 	blocksToRemove = []
 	for block in blockList:
-		# If the block contains only single entity
-		if len(blockList[block]) == 1:
+		datasetsInBlock = []
+		for entity in blocks[block]:
+			if entity[0] not in datasetsInBlock:
+				datasetsInBlock.append(entity[0])
+		# If the block contains only single dataset entity
+		if len(datasetsInBlock) == 1:
 			blocksToRemove.append(block)
 	for block in blocksToRemove:
 		blockList.pop(block)
