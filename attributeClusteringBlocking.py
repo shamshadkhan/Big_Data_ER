@@ -20,14 +20,11 @@ blocks = dict()
 
 # create a list of attribute names, with the occuring values
 def extractAttributeNames(entitiesList, datasetIndex):
-    # unique set of attribute Names
-    attributeNames = set()
     # attributeDict are dictionaries with the attribute names, dataset index as keys (in a tuple) and
     # as value a list with the values that occur in this attribute
     attributeNameDict = dict()
     for entity in entitiesList:
         for attributeName in entity:
-            attributeNames.add((attributeName,datasetIndex))
             #check if attribute name exists in dictionary
             if (attributeName,datasetIndex) not in attributeNameDict:
                 attributeNameDict[(attributeName, datasetIndex)] = list()
