@@ -1,0 +1,181 @@
+ [{
+  "dataset2id": "nm0000033",
+  "knownFor": "tt0053125,tt0051207,tt0054215,tt0052357",
+  "tag": "Alfred Hitchcock",
+  "yearOfBirth": "1899"
+}, {
+  "dataset2id": "nm0000040",
+  "knownFor": "tt0072684,tt0062622,tt0066921,tt0120663",
+  "tag": "Stanley Kubrick",
+  "yearOfBirth": "1928"
+}, {
+  "dataset2id": "nm0000095",
+  "knownFor": "tt0097123,tt0075686,tt0091167,tt0079522",
+  "tag": "Woody Allen",
+  "yearOfBirth": "1935"
+}, {
+  "dataset2id": "nm0000186",
+  "knownFor": "tt0460829,tt0166924,tt0098936,tt0105665",
+  "tag": "David Lynch",
+  "yearOfBirth": "1946"
+}, {
+  "dataset2id": "nm0000229",
+  "knownFor": "tt0108052,tt0083866,tt0082971,tt0120815",
+  "tag": "Steven Spielberg",
+  "yearOfBirth": "1946"
+}, {
+  "dataset2id": "nm0000318",
+  "knownFor": "tt1142977,tt0099487,tt0121164,tt0408236",
+  "tag": "Tim Burton",
+  "yearOfBirth": "1958"
+}, {
+  "dataset2id": "nm0000631",
+  "knownFor": "tt3659388,tt0083658,tt0103074,tt0172495",
+  "tag": "Ridley Scott",
+  "yearOfBirth": "1937"
+}, {
+  "dataset2id": "nm0001202",
+  "knownFor": "tt0071141,tt0079095,tt0064536,tt0072976",
+  "tag": "Rainer Werner Fassbinder",
+  "yearOfBirth": "1945"
+}, {
+  "dataset2id": "tt0051207",
+  "tag": "The Wrong Man",
+  "year": "1956"
+}, {
+  "dataset2id": "tt0052357",
+  "tag": "Vertigo",
+  "year": "1958"
+}, {
+  "dataset2id": "tt0053125",
+  "tag": "North by Northwest",
+  "year": "1959"
+}, {
+  "dataset2id": "tt0054215",
+  "tag": "Psycho",
+  "year": "1960"
+}, {
+  "dataset2id": "tt0062622",
+  "tag": "2001: A Space Odyssey",
+  "year": "1968"
+}, {
+  "dataset2id": "tt0064536",
+  "tag": "Katzelmacher",
+  "year": "1969"
+}, {
+  "dataset2id": "tt0066921",
+  "tag": "A Clockwork Orange",
+  "year": "1971"
+}, {
+  "dataset2id": "tt0071141",
+  "tag": "Angst essen Seele auf",
+  "year": "1974"
+}, {
+  "dataset2id": "tt0072684",
+  "tag": "Barry Lyndon",
+  "year": "1975"
+}, {
+  "dataset2id": "tt0072976",
+  "tag": "Faustrecht der Freiheit",
+  "year": "1975"
+}, {
+  "dataset2id": "tt0075686",
+  "tag": "Annie Hall",
+  "year": "1977"
+}, {
+  "dataset2id": "tt0079095",
+  "tag": "Die Ehe der Maria Braun",
+  "year": "1979"
+}, {
+  "dataset2id": "tt0079522",
+  "tag": "Manhattan",
+  "year": "1979"
+}, {
+  "dataset2id": "tt0082971",
+  "tag": "Raiders of the Lost Ark",
+  "year": "1981"
+}, {
+  "dataset2id": "tt0083658",
+  "tag": "Blade Runner",
+  "year": "1982"
+}, {
+  "dataset2id": "tt0083866",
+  "tag": "E.T. the Extra-Terrestrial",
+  "year": "1982"
+}, {
+  "dataset2id": "tt0091167",
+  "tag": "Hannah and Her Sisters",
+  "year": "1986"
+}, {
+  "dataset2id": "tt0097123",
+  "tag": "Crimes and Misdemeanors",
+  "year": "1989"
+}, {
+  "dataset2id": "tt0098936",
+  "tag": "Twin Peaks",
+  "year": "1990"
+}, {
+  "dataset2id": "tt0099487",
+  "tag": "Edward Scissorhands",
+  "year": "1990"
+}, {
+  "dataset2id": "tt0103074",
+  "tag": "Thelma &amp; Louise",
+  "year": "1991"
+}, {
+  "dataset2id": "tt0105665",
+  "tag": "Twin Peaks: Fire Walk with Me",
+  "year": "1992"
+}, {
+  "dataset2id": "tt0108052",
+  "tag": "Schindler's List",
+  "year": "1993"
+}, {
+  "dataset2id": "tt0116282",
+  "tag": "Fargo",
+  "year": "1996"
+}, {
+  "dataset2id": "tt0120663",
+  "tag": "Eyes Wide Shut",
+  "year": "1999"
+}, {
+  "dataset2id": "tt0120815",
+  "tag": "Saving Private Ryan",
+  "year": "1998"
+}, {
+  "dataset2id": "tt0121164",
+  "tag": "Corpse Bride",
+  "year": "2005"
+}, {
+  "dataset2id": "tt0166924",
+  "tag": "Mulholland Dr.",
+  "year": "2001"
+}, {
+  "dataset2id": "tt0172495",
+  "tag": "Gladiator",
+  "year": "2000"
+}, {
+  "dataset2id": "tt0408236",
+  "tag": "Sweeney Todd: The Demon Barber of Fleet Street",
+  "year": "2007"
+}, {
+  "dataset2id": "tt0460829",
+  "tag": "Inland Empire",
+  "year": "2006"
+}, {
+  "dataset2id": "tt1019452",
+  "tag": "A Serious Man",
+  "year": "2009"
+}, {
+  "dataset2id": "tt1142977",
+  "tag": "Frankenweenie",
+  "year": "2012"
+}, {
+  "dataset2id": "tt3659388",
+  "tag": "The Martian",
+  "year": "2015"
+}, {
+  "dataset2id": "tt6412452",
+  "tag": "The Ballad of Buster Scruggs",
+  "year": "2018"
+}]
