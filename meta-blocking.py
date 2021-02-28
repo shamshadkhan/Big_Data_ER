@@ -6,14 +6,14 @@ def block_collection_to_graph(block_collection):
 
     Input: Block collection created from two clean datasets.
     Expected format is a three dimensional sequence:
-    E.g. [[[di, pa], ..., [dj, pz]]] where di an dj refer to
-    the originating dataset for the entites (e.g. pa).
-    Thus di, dj denote an inner block. Entities pa, ..., pz
-    refer to an index in the block_collection.
+    E.g. [[[d, pa], ..., [d, pz]]] where d refers to the originating
+    dataset of the entites (p). Thus d can have two values (e.g. 1, 2)
+    and it denotes an inner block.
+    Entities pa, ..., pz refer to an index in the origin datasets.
 
     Output: nodes and edges
-    nodes: [[di, pa], ..., [dj, pz]]
-    edges: [[[di, pa], [dj, pb]], ..., [di, py], [dj, pz]]]
+    nodes: [[d, pa], ..., [d, pz]]
+    edges: [[[d, pa], [d, pb]], ..., [d, py], [d, pz]]]
     """
     nodes = []
     edges = []
@@ -55,10 +55,11 @@ def jaccard_weighting(edges, block_collection):
         b_ij = count_common_blocks(edge, block_collection)
         b_i = count_block_occurrence(edge[0], block_collection)
         b_j = count_block_occurrence(edge[1], block_collection)
-        weight = b_ij / (b_i + b_j - b_ij)
-        weights.append(weight)
+        jaccard_similarity = b_ij / (b_i + b_j - b_ij)
+        weights.append(jaccard_similarity)
     return weights
 
 def weight_edge_pruning(edges, weights):
-    average = sum(weights)/len(weights)
-    return [edges[i] if w > average else "N/A" for i, w in enumerate(weights)]
+    average_edge_weight = sum(weights)/len(weights)
+    treshold = average_edge_weight
+    return [edges[i] if w > treshold else "N/A" for i, w in enumerate(weights)]
