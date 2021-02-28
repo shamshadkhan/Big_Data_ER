@@ -1,13 +1,16 @@
 import json
 import re
+from itertools import product as cartesian_product
 
 # Opening JSON file
 file1 = open('dataset1.json')
 file2 = open('dataset2.json')
+file3 = open('ground_truth.json')
 
 # returns JSON object as a dictionary
 dataset1 = json.load(file1)
 dataset2 = json.load(file2)
+ground_truth = json.load(file3)
 
 # Tokens as block keys and the value is a list of information of entities that have the token.
 # (dataset index and entity index in the dataset)
@@ -48,6 +51,7 @@ def createTokenBlocks(dataset, dataset_index):
 				else:
 					blocks[token] = [[dataset_index, index]]
 		index += 1
+
 #Filter Blocks that contain only single dataset entity
 def cleanTokenBlocks(blockList):
 	blocksToRemove = []
@@ -63,16 +67,55 @@ def cleanTokenBlocks(blockList):
 		blockList.pop(block)
 	return blockList
 
-#Perfom Token Blocking
-createTokenBlocks(dataset1, 1)
-createTokenBlocks(dataset2, 2)
-cleanBlocks = cleanTokenBlocks(blocks)
+#measure RR, PC, PQ
+def measure_performance(block_collection, ground_truth):
+	print(f"Dataset 1 has {len(dataset1)} entities.")
+	print(f"Dataset 2 has {len(dataset2)} entities.")
+	comparisons = []
+	for block in block_collection:
+		inner_block_1 = []
+		inner_block_2 = []
+		for entity in block_collection[block]:
+			if entity[0] == 1:
+				inner_block_1.append(entity)
+			else:
+				inner_block_2.append(entity)
+		comparisons.append(cartesian_product(inner_block_1, inner_block_2))
 
-# Output the blocks in to a json file
-# Write blocks to json file
-out_file = open('tokenBlocks.json', 'w')
-json.dump(cleanBlocks, out_file)
-out_file.close()
+	print("Ground truth (duplicates):", len(ground_truth))
 
+	#print("comparisons",comparisons)
+	allcomps = [comp for comparison in comparisons for comp in comparison]
+	print("Suggested comparisons:", len(allcomps))
+	print("Reduction Ratio: 1 - (", len(allcomps), "/", len(dataset1)*len(dataset2), ") =", (1 - (len(allcomps)/(len(dataset1)*len(dataset2))))*100, "%")
+	correct = 0
+	#print("ground_truth", ground_truth)
+	#print("alcomps", allcomps)
+	for duplicate in ground_truth:
+		#print("hi", tuple(duplicate))
+		if tuple(duplicate) in allcomps:
+			correct += 1
+	print("Duplicates found (PC):", correct, "/", len(ground_truth), "=", (correct/len(ground_truth)) * 100, "%")
+	print("Precision (PQ):", correct, "/", len(allcomps), "=", (correct/len(allcomps)) * 100, "%")
 
+def main():
+	#Perfom Token Blocking
+	createTokenBlocks(dataset1, 1)
+	createTokenBlocks(dataset2, 2)
+	cleanBlocks = cleanTokenBlocks(blocks)
+
+	# Output the blocks in to a json file
+	# Write blocks to json file
+	print("Writing token block collection to 'tokenBlocks.json'")
+	out_file = open('tokenBlocks.json', 'w')
+	json.dump(cleanBlocks, out_file)
+	out_file.close()
+	print("Done.\n")
+
+	#running performance
+	print("Running performance measurements for the token block collection...")
+	measure_performance(cleanBlocks, ground_truth)
+
+if __name__ == "__main__":
+    main()
 

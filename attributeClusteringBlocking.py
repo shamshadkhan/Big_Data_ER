@@ -1,17 +1,21 @@
 import json
 import tokenBlocking
+from itertools import product as cartesian_product
 
 # import function from tokenblocking file
 extractTokensFromAttributeValue = tokenBlocking.extractTokensFromAttributeValue
 cleanTokenBlocks = tokenBlocking.cleanTokenBlocks
+measure_performance = tokenBlocking.measure_performance
 
 # Opening JSON file
 file1 = open('dataset1.json')
 file2 = open('dataset2.json')
+file3 = open('ground_truth.json')
 
 # returns JSON object as a dictionary
 dataset1 = json.load(file1)
 dataset2 = json.load(file2)
+ground_truth = json.load(file3)
 
 datasets = [dataset1,dataset2]
 clusterLinks1 = {}
@@ -117,35 +121,46 @@ def createTokenBlocksFromCluster(clusterLists,attributeNames1,attributeNames2):
                                 else:
                                     blocks[key]= [value]
 
-# extracting attribute names for each dataset
-attributeNames1 = extractAttributeNames(dataset1,1)
-attributeNames2 = extractAttributeNames(dataset2,2)
+def main():
+    # extracting attribute names for each dataset
+    attributeNames1 = extractAttributeNames(dataset1,1)
+    attributeNames2 = extractAttributeNames(dataset2,2)
 
-#get most similar Attribute for datatset1 from dataset2 and create link
-for attributeName in attributeNames1:
-    mostSimilarAttributeName = extractMostSimilarAttribute(attributeName,attributeNames1,attributeNames2)
-    if not mostSimilarAttributeName == 0:
-        clusterLinks1[attributeName] = mostSimilarAttributeName
+    #get most similar Attribute for datatset1 from dataset2 and create link
+    for attributeName in attributeNames1:
+        mostSimilarAttributeName = extractMostSimilarAttribute(attributeName,attributeNames1,attributeNames2)
+        if not mostSimilarAttributeName == 0:
+            clusterLinks1[attributeName] = mostSimilarAttributeName
 
-#get most similar Attribute for datatset2 from dataset1 and create link
-for attributeName in attributeNames2:
-    mostSimilarAttributeName = extractMostSimilarAttribute(attributeName,attributeNames2,attributeNames1)
-    if not mostSimilarAttributeName == 0:
-        clusterLinks2[attributeName] = mostSimilarAttributeName
+    #get most similar Attribute for datatset2 from dataset1 and create link
+    for attributeName in attributeNames2:
+        mostSimilarAttributeName = extractMostSimilarAttribute(attributeName,attributeNames2,attributeNames1)
+        if not mostSimilarAttributeName == 0:
+            clusterLinks2[attributeName] = mostSimilarAttributeName
 
-#creating the transitive closure
-clusterLists = createTransitiveClosure(clusterLinks1,clusterLinks2)
+    #creating the transitive closure
+    clusterLists = createTransitiveClosure(clusterLinks1,clusterLinks2)
 
-#clean clusters
-cleanClusterLists = cleanClusterLists(clusterLists)
+    #clean clusters
+    cleanClusters = cleanClusterLists(clusterLists)
 
-#create blocks by applying token blocking
-createTokenBlocksFromCluster(cleanClusterLists,attributeNames1,attributeNames2)
+    #create blocks by applying token blocking
+    createTokenBlocksFromCluster(cleanClusters,attributeNames1,attributeNames2)
 
-#clean token blocks
-cleanBlocks = cleanTokenBlocks(blocks)
+    #clean token blocks
+    cleanBlocks = cleanTokenBlocks(blocks)
 
-# Write blocks to json file
-out_file = open('attributeClusteringBlocks.json', 'w')
-json.dump(cleanBlocks, out_file)
-out_file.close()
+    print("Writing attribute block collection to 'attributeClusteringBlocks.json'")
+    # Write blocks to json file
+    out_file = open('attributeClusteringBlocks.json', 'w')
+    json.dump(cleanBlocks, out_file)
+
+    out_file.close()
+    print("Done.\n")
+
+    #running performance
+    print("Running performance measurements for the attribute block collection...")
+    measure_performance(cleanBlocks, ground_truth)
+
+if __name__ == "__main__":
+    main()
