@@ -1,4 +1,5 @@
 from math import ceil
+import json
 from itertools import permutations
 from itertools import product as cartesian_product
 
@@ -146,3 +147,36 @@ def cardinality_node_pruning(nodes, edges, weights):
                         pruned_weights.append(stack_item[1])
 
     return nodes, pruned_directed_edges, pruned_weights
+
+def measure_performance(block_collection, ground_truth):
+    with open('dataset1.json') as f:
+        d1 = json.load(f)
+    with open('dataset2.json') as f:
+        d2 = json.load(f)
+
+    print(f"Dataset 1 has {len(d1)} entities.")
+    print(f"Dataset 2 has {len(d2)} entities.")
+
+    comparisons = []
+    for entities in block_collection:
+        inner_block_1 = []
+        inner_block_2 = []
+        for entity in entities:
+            if entity[0] == 1:
+                inner_block_1.append(entity)
+            else:
+                inner_block_2.append(entity)
+        comparisons.append(cartesian_product(inner_block_1, inner_block_2))
+
+    print("Ground truth (duplicates):", len(ground_truth))
+
+    allcomps = [comp for comparison in comparisons for comp in comparison]
+    print("Suggested comparisons:", len(allcomps))
+    print("Reduction Ratio: 1 - (", len(allcomps), "/", len(d1)*len(d2), ") =", (1 - (len(allcomps)/(len(d1)*len(d2))))*100, "%")
+
+    correct = 0
+    for duplicate in ground_truth:
+        if tuple(duplicate) in allcomps:
+            correct += 1
+    print("Duplicates found (PC):", correct, "/", len(ground_truth), "=", (correct/len(ground_truth)) * 100, "%")
+    print("Precision (PQ):", correct, "/", len(allcomps), "=", (correct/len(allcomps)) * 100, "%")
