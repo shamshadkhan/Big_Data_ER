@@ -36,6 +36,21 @@ def block_collection_to_graph(block_collection):
                 edges.append(edge)
     return nodes, edges
 
+def graph_to_block_collection(edges):
+    return [edge for edge in edges if edge != "N/A"]
+
+def directed_graph_to_block_collection(directed_edges):
+    block_collection = dict()
+    for edge in directed_edges:
+        # The source node may point to more than one node,
+        # i.e. the source node already has a block
+        if tuple(edge[0]) in block_collection:
+            block_collection[tuple(edge[0])].append(tuple(edge[1]))
+        # Otherwise create a new block
+        else:
+            block_collection[tuple(edge[0])] = [tuple(edge[1])]
+    return block_collection
+
 def count_block_occurrence(entity, block_collection):
     return sum(1 for block in block_collection.values() if entity in block)
 
