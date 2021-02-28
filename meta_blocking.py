@@ -1,5 +1,5 @@
-from math import ceil
 import json
+from math import ceil, floor
 from itertools import permutations
 from itertools import product as cartesian_product
 
@@ -180,3 +180,44 @@ def measure_performance(block_collection, ground_truth):
             correct += 1
     print("Duplicates found (PC):", correct, "/", len(ground_truth), "=", (correct/len(ground_truth)) * 100, "%")
     print("Precision (PQ):", correct, "/", len(allcomps), "=", (correct/len(allcomps)) * 100, "%")
+
+def main():
+    with open('ground_truth.json') as f:
+        ground_truth = json.load(f)
+
+    print("Opening block collection from Token Blocking method... ")
+    with open('tokenBlocks.json') as f:
+        token_blocks = json.load(f)
+    print(f"Block collection has {len(token_blocks)} blocks.\n")
+
+    print("Transforming block collection to a graph... ")
+    nodes, edges = block_collection_to_graph(token_blocks)
+    print(f"Extracted {len(nodes)} nodes and {len(edges)} edges.\n")
+
+    print("Calculating weights to graph with the Jaccard scheme...")
+    jaccard_weights = jaccard_weighting(edges, token_blocks)
+    print(f"Max weight is {max(jaccard_weights)}, min weight is {min(jaccard_weights)}, median weight is {jaccard_weights[floor(len(jaccard_weights)/2)-1]}\n")
+
+    print("Calculating weights to graph with the Common Blocks scheme...")
+    common_blocks_weights = common_blocks_weighting(edges, token_blocks)
+    print(f"Max weight is {max(common_blocks_weights)}, min weight is {min(common_blocks_weights)}, median weight is {common_blocks_weights[floor(len(common_blocks_weights)/2)-1]}\n")
+
+    print("Pruning the Common Blocks weights with Weight Edge pruning...")
+    wep_edges = weight_edge_pruning(edges, common_blocks_weights)
+    print(f"Pruned {sum(1 for e in wep_edges if e == 'N/A')} edges.\n")
+
+    print("Transforming the pruned graph back to a block collection.")
+    wep_blocks = graph_to_block_collection(wep_edges)
+    #print(wep_blocks)
+    print(f"Pruned block collection has {len(wep_blocks)} blocks.\n")
+
+    print("Writing pruned block collection to 'WEP_pruned_blocks.json'")
+    with open('WEP_pruned_blocks.json', 'w') as f:
+        json.dump(wep_blocks, f)
+    print("Done.\n")
+
+    print("Running performance measurements for the pruned block collection...")
+    measure_performance(wep_blocks, ground_truth)
+
+if __name__ == "__main__":
+    main()
