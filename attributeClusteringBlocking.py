@@ -113,7 +113,7 @@ def createTokenBlocksFromCluster(clusterLists,attributeNames1,attributeNames2):
                             currentExtractedToken = extractTokensFromAttributeValue(entity[attributeName[0]])
                             if value in currentExtractedToken:
                                 key = 'C' + str(clusterLists.index(cluster) + 1) + '.' + value
-                                value = (datasets.index(dataset) + 1, dataset.index(entity))
+                                value = [datasets.index(dataset) + 1, dataset.index(entity)]
                                 if key in blocks:
                                     if not value in blocks[key]:
                                         blocks[key].append(value)
