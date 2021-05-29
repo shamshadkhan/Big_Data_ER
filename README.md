@@ -1,4 +1,4 @@
-# Big_Data_ER
+# Big Data ER Analysis
 The report is about brief discussion of three different types of blocking methods. The blocking methods token blocking, attribute clustering blocking and meta blocking method. Language used to implement the algorithms is Python and tools used were Pycharm, Jupyter Notebook and Emacs. Programs are run using command python filename.py.
 
 Dataset used here are dataset from IMDb (https://datasets.imdbws.com/). IMDb is an online database of information related to films, television programs, home videos, video games, and streaming content online – including cast, production crew and personal biographies. We have created two Clean-Clean datasets based on list of some directors. Which means datasets does not contain any duplicate within themselves. Dataset 𝐷1 is created with four attribute-value pairs (dataset1id, name, birthYear, movieTitles, year) with total of 100 
